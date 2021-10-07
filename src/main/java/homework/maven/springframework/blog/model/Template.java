@@ -9,6 +9,9 @@ import javax.persistence.Id;
 public class Template {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String templateName;
 
     public Template() {
@@ -25,12 +28,20 @@ public class Template {
 
         Template template = (Template) o;
 
-        return templateName != null ? templateName.equals(template.templateName) : template.templateName == null;
+        return id != null ? id.equals(template.id) : template.id == null;
     }
 
     @Override
     public int hashCode() {
-        return templateName != null ? templateName.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTemplateName() {

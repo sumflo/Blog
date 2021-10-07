@@ -26,7 +26,7 @@ public class Blog {
     private List<Post> blogRegistries = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "template_templateName")
+    @JoinColumn(name = "template_id")
     private Template template;
 
     public Blog() {

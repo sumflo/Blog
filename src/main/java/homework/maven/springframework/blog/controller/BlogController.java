@@ -31,7 +31,7 @@ public class BlogController {
     @PostMapping("/addBlog")
     public ResponseEntity<String> addBlog(@RequestBody BlogDTO blogDTO){
         User currentUser = userService.findUser(blogDTO.getUserId()).orElseThrow();
-        Template currentTemplate =templateService.findTemplate(blogDTO.getTemplateName()).orElseThrow();
+        Template currentTemplate =templateService.findTemplate(blogDTO.getTemplateId()).orElseThrow();
         blogService.addBlog(blogDTO.getBlogTitle(), currentUser, currentTemplate);
         return new ResponseEntity<>("Blog is created.", HttpStatus.OK);
     }

@@ -17,7 +17,7 @@ public class TemplateService {
 
     public void addTemplate (Template template){
 
-        if(templateRepository.findById(template.getTemplateName()).isPresent()){
+        if(templateRepository.findByTemplateName(template.getTemplateName()).isPresent()){
             //TODO: Ex.Hand.
             System.out.println("This template is already created.");
         }
@@ -25,7 +25,7 @@ public class TemplateService {
         templateRepository.save(new Template(template.getTemplateName()));
     }
 
-    public Optional<Template>findTemplate (String templateName){
-        return templateRepository.findById(templateName);
+    public Optional<Template>findTemplate (Long id){
+        return templateRepository.findById(id);
     }
 }

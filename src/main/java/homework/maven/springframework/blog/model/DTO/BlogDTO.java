@@ -6,12 +6,12 @@ public class BlogDTO {
 
     private Long userId;
     private String blogTitle;
-    private String templateName;
+    private Long templateId;
 
     public BlogDTO(Long userId, String blogTitle, String templateName) {
         this.userId = userId;
         this.blogTitle = blogTitle;
-        this.templateName = templateName;
+        this.templateId = templateId;
     }
 
     public Long getUserId() {
@@ -22,7 +22,7 @@ public class BlogDTO {
         return blogTitle;
     }
 
-    public String getTemplateName() {
-        return templateName;
+    public Long getTemplateId() {
+        return templateId;
     }
 }
