@@ -47,16 +47,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter filter = new
                 CharacterEncodingFilter();
         http.addFilterBefore(filter, CsrfFilter.class)
+                .authorizeRequests()
+                .antMatchers( "/*.css").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .loginProcessingUrl("/login")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")
-                .and()
-                .authorizeRequests()
-                .antMatchers( "/*.css").permitAll()
-                .anyRequest().authenticated();
+                .logoutSuccessUrl("/login");
     }
 
 }
