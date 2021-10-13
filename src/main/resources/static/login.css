@@ -1,0 +1,154 @@
+body{
+    background-image: url("/static/images/green-tea-workspace.jpg");
+}
+
+h2{
+    color: white;
+}
+
+button{
+    width: 90%;
+    border:1px;
+    margin: 3% 0  3% 0;
+    border-radius: 3px;
+    font-size: 22px;
+}
+
+#my-b {
+    color: black;
+}
+
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 500px;
+    margin-top: 10%; /* ezt valami auto bállításra kell csrélni*/
+    background-color: rgba(0, 0, 0, 0.541);
+    border-style: none;
+    border-radius: 10px;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    margin: 0;
+    width: 45%;
+}
+
+.logo{
+margin-bottom: 5%;
+}
+
+#my-blog{
+    color: white;
+}
+
+#big-b{
+    color: rgb(49, 49, 49);
+    display: inline-block; 
+    -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
+    -o-transform: matrix(-1, 0, 0, 1, 0, 0);
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.data{
+    display: block;
+    text-transform: uppercase;
+    color: white;
+}
+
+#nameInputField{
+    width: 90%;
+    font-size: 16px;
+}
+
+#wordInputField{
+    width: 90%;
+}
+
+#sign-in{
+    background-color: rgb(49, 49, 49);
+    color: white;
+}
+
+#sign-in:hover{
+    color: rgb(49, 49, 49);
+    background-color: white;
+    font-weight: bold;
+}
+
+#pass{
+    color: white;
+    text-align: center;
+    margin: 5px;
+}
+
+#pass:hover{
+    color: rgb(49, 49, 49);
+    font-weight: bold;
+}
+
+.separator{
+    width: 3px;
+    height: 75%;
+    background-color: rgb(49, 49, 49);
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    width: 40%;
+}
+
+.blue{
+    color: rgb(66 133 244)
+}
+
+.red{
+    color: rgb(219 68 55) 
+}
+
+.yellow{
+    color: rgb(244 180 0) 
+}
+
+.green{
+    color: rgb(15 157 88) 
+}
+
+#google:hover{
+    background-color: rgb(49, 49, 49);
+}
+
+#facebook{
+    background-color: rgb(66 103 178);
+    color: white;
+}
+
+#facebook:hover{
+    color: rgb(66 103 178);
+    background-color: white;
+}
+
+#twitter{
+    color: rgb(29 161 242);
+    font-weight: bold;
+}
+
+#twitter:hover{
+    background-color: rgb(29 161 242);
+    color:white;
+}
