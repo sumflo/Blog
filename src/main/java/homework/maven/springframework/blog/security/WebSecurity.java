@@ -22,13 +22,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/", "/static/", "/css/", "/js/", "/img/", "/icon/");
-    }
-
-    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -37,26 +30,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
    @Override
     protected void configure(HttpSecurity http) throws Exception{
 
-        /*http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login");*/
-
         CharacterEncodingFilter filter = new
                 CharacterEncodingFilter();
         http.addFilterBefore(filter, CsrfFilter.class)
-                .authorizeRequests()
-                .antMatchers( "/*.css").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .loginProcessingUrl("/login")
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login");
+               .authorizeRequests()
+               .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico").permitAll()
+               .anyRequest().authenticated();
     }
 
 }
