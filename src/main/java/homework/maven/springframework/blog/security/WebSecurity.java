@@ -34,7 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 CharacterEncodingFilter();
         http.addFilterBefore(filter, CsrfFilter.class)
                .authorizeRequests()
-               .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico").permitAll()
+               .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/home").permitAll()
                .anyRequest().authenticated();
     }
 
