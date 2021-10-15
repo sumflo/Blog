@@ -1,15 +1,14 @@
 package homework.maven.springframework.blog.repositories;
 
 import homework.maven.springframework.blog.model.Comment;
-import org.springframework.data.repository.CrudRepository;
-
-import javax.transaction.Transactional;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.data.repository.CrudRepository;
 
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 
-    List<Comment> findAll();
+  List<Comment> findAll();
 
-    @Transactional
-    void deleteById(Long id);
+  @Transactional
+  void deleteById(Long id);
 }

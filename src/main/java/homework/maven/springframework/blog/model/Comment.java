@@ -1,90 +1,98 @@
 package homework.maven.springframework.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @ManyToOne
-    @JsonBackReference(value = "user-comment")
-    private User user;
+  @ManyToOne
+  @JsonBackReference(value = "user-comment")
+  private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    @JsonBackReference
-    private Post post;
+  @ManyToOne
+  @JoinColumn(name = "post_id")
+  @JsonBackReference
+  private Post post;
 
-    private String text;
+  private String text;
 
-    //Todo: default értékadás - akkor kapjon értéket, amikor létrjön az adatbázisban
-    private LocalDateTime DATE_OF_REGISTRY;
+  //Todo: default értékadás - akkor kapjon értéket, amikor létrjön az adatbázisban
+  private LocalDateTime DATE_OF_REGISTRY;
 
-    public Comment() {
-        DATE_OF_REGISTRY = LocalDateTime.now();
+  public Comment() {
+    DATE_OF_REGISTRY = LocalDateTime.now();
+  }
+
+  public Comment(User user, Post post, String text) {
+    this.user = user;
+    this.post = post;
+    this.text = text;
+    this.DATE_OF_REGISTRY = LocalDateTime.now();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    public Comment(User user, Post post, String text) {
-        this.user = user;
-        this.post = post;
-        this.text = text;
-        this.DATE_OF_REGISTRY = LocalDateTime.now();
-    }
+    Comment comment = (Comment) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    return id != null ? id.equals(comment.id) : comment.id == null;
+  }
 
-        Comment comment = (Comment) o;
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
+  }
 
-        return id != null ? id.equals(comment.id) : comment.id == null;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setUser(User author) {
+    this.user = author;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public Post getPost() {
+    return post;
+  }
 
-    public void setUser(User author) {
-        this.user = author;
-    }
+  public void setPost(Post reply) {
+    this.post = reply;
+  }
 
-    public Post getPost() {
-        return post;
-    }
+  public String getText() {
+    return text;
+  }
 
-    public void setPost(Post reply) {
-        this.post = reply;
-    }
+  public void setText(String text) {
+    this.text = text;
+  }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public LocalDateTime getDATE_OF_REGISTRY() {
-        return DATE_OF_REGISTRY;
-    }
+  public LocalDateTime getDATE_OF_REGISTRY() {
+    return DATE_OF_REGISTRY;
+  }
 }

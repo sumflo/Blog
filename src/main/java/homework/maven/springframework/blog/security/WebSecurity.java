@@ -13,29 +13,30 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+  @Autowired
+  private MyUserDetailsService myUserDetailsService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(myUserDetailsService);
+  }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-   @Override
-    protected void configure(HttpSecurity http) throws Exception{
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
 
-        CharacterEncodingFilter filter = new
-                CharacterEncodingFilter();
-        http.addFilterBefore(filter, CsrfFilter.class)
-               .authorizeRequests()
-               .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/home").permitAll()
-               .anyRequest().authenticated();
-    }
+    CharacterEncodingFilter filter = new
+        CharacterEncodingFilter();
+    http.addFilterBefore(filter, CsrfFilter.class)
+        .authorizeRequests()
+        .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/home")
+        .permitAll()
+        .anyRequest().authenticated();
+  }
 
 }

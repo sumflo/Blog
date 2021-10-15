@@ -2,94 +2,103 @@ package homework.maven.springframework.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Blog {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference(value = "user-blog")
-    private User user;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  @JsonBackReference(value = "user-blog")
+  private User user;
 
-    private String blogTitle;
+  private String blogTitle;
 
-    @OneToMany(mappedBy = "blog")
-    @JsonManagedReference
-    private List<Post> blogRegistries = new ArrayList<>();
+  @OneToMany(mappedBy = "blog")
+  @JsonManagedReference
+  private List<Post> blogRegistries = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "template_id")
-    private Template template;
+  @ManyToOne
+  @JoinColumn(name = "template_id")
+  private Template template;
 
-    public Blog() {
+  public Blog() {
+  }
+
+  public Blog(User user, String blogTitle, Template template) {
+    this.user = user;
+    this.blogTitle = blogTitle;
+    this.template = template;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    public Blog(User user, String blogTitle, Template template) {
-        this.user = user;
-        this.blogTitle = blogTitle;
-        this.template = template;
-    }
+    Blog blog = (Blog) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    return id != null ? id.equals(blog.id) : blog.id == null;
+  }
 
-        Blog blog = (Blog) o;
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
+  }
 
-        return id != null ? id.equals(blog.id) : blog.id == null;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setUser(User author) {
+    this.user = author;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public String getBlogTitle() {
+    return blogTitle;
+  }
 
-    public void setUser(User author) {
-        this.user = author;
-    }
+  public void setBlogTitle(String blogTitle) {
+    this.blogTitle = blogTitle;
+  }
 
-    public String getBlogTitle() {
-        return blogTitle;
-    }
+  public List<Post> getBlogRegistries() {
+    return blogRegistries;
+  }
 
-    public void setBlogTitle(String blogTitle) {
-        this.blogTitle = blogTitle;
-    }
+  public void setBlogRegistries(List<Post> blogRegistries) {
+    this.blogRegistries = blogRegistries;
+  }
 
-    public List<Post> getBlogRegistries() {
-        return blogRegistries;
-    }
+  public Template getTemplate() {
+    return template;
+  }
 
-    public void setBlogRegistries(List<Post> blogRegistries) {
-        this.blogRegistries = blogRegistries;
-    }
-
-    public Template getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(Template template) {
-        this.template = template;
-    }
+  public void setTemplate(Template template) {
+    this.template = template;
+  }
 }
