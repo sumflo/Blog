@@ -1,7 +1,3 @@
-body {
-  background-image: url("/images/green-tea-workspace.jpg");
-}
-
 h2 {
   color: white;
 }
@@ -18,39 +14,12 @@ button {
   color: black;
 }
 
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40%;
-  height: 500px;
-  margin-top: 10%; /* ezt valami auto bállításra kell csrélni*/
-  background-color: rgba(0, 0, 0, 0.541);
-  border-style: none;
-  border-radius: 10px;
-}
-
 .login {
   display: flex;
   flex-direction: column;
   height: 80%;
   margin: 0;
   width: 45%;
-}
-
-.logo {
-  margin-bottom: 5%;
-}
-
-#my-blog {
-  color: white;
 }
 
 #big-b {
@@ -107,18 +76,16 @@ button {
   font-weight: bold;
 }
 
-.separator {
-  width: 3px;
-  height: 75%;
-  background-color: rgb(49, 49, 49);
-}
-
 .buttons {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0;
   width: 40%;
+}
+
+#or {
+  color: white;
 }
 
 .blue {

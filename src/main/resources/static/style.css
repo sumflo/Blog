@@ -19,7 +19,7 @@ h2 {
   align-items: center;
   width: 40%;
   height: 500px;
-  margin-top: 10%; /* ezt valami auto bállításra kell csrélni*/
+  margin-top: 10%;
   background-color: rgba(0, 0, 0, 0.541);
   border-style: none;
   border-radius: 10px;

@@ -28,9 +28,10 @@ public class UserService {
     if (userRepository.findByUserName(user.getUserName()).isPresent()) {
       //TODO: Ex.Hand.
       System.out.println("This username is already used. Please choose another one.");
+    }else{
+      userRepository.save(new User(user.getUserName(), user.getPassword()));
     }
 
-    userRepository.save(new User(user.getUserName(), user.getPassword()));
   }
 
   public void deleteUser(Long id) {

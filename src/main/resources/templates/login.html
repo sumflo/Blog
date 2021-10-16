@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -11,7 +10,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
         crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="login.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
   <title>Log in</title>
 </head>
 <body>
@@ -26,13 +26,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/home">Home</a>
+        <a class="nav-link" href="/index">My Bolg</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Log In</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/registration">Registration</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">Contact</a>
+        <a class="nav-link" href="/home">Profile</a>
       </li>
     </ul>
   </div>
@@ -71,6 +74,7 @@
     <div class="separator"></div>
 
     <div class="buttons">
+      <p id="or">Or sign in with:</p>
       <button id="google"><b class="blue">G</b><b class="red">o</b><b class="yellow">o</b><b
           class="blue">g</b><b class="green">l</b><b class="red">e</b></button>
       <button id="facebook"><i class="fab fa-facebook-square"></i> Facebook</button>
@@ -79,7 +83,6 @@
 
   </div>
 </div>
-
 
 </body>
 </html>
