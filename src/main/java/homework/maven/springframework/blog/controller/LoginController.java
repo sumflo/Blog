@@ -1,8 +1,12 @@
 package homework.maven.springframework.blog.controller;
 
+import homework.maven.springframework.blog.model.User;
 import homework.maven.springframework.blog.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
@@ -17,5 +21,14 @@ public class LoginController {
   public String renderLoginPage() {
     return "login";
   }
+
+/*  @PostMapping("/login")
+  public String authenticateUser(@ModelAttribute User user){
+    if (userService.findByUserName(user.getUserName()).isPresent()){
+      return "redirect:/home";
+
+    }
+
+  }*/
 
 }

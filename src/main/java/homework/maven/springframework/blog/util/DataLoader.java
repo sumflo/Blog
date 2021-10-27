@@ -42,7 +42,7 @@ public class DataLoader implements ApplicationRunner {
 
     templateRepository.save(new Template("RoseGold"));
 
-    blogRepository.save(new Blog(userRepository.findByUserName("Jucus").orElseThrow(),
+    blogRepository.save(new Blog(userRepository.findByUsername("Jucus").orElseThrow(),
         "Hogyan ne bukjunk meg Java-ból?",
         templateRepository.findByTemplateName("RoseGold").orElseThrow()));
 
@@ -50,7 +50,7 @@ public class DataLoader implements ApplicationRunner {
         blogRepository.findBlogByBlogTitle("Hogyan ne bukjunk meg Java-ból?").orElseThrow(),
         "Spring", "Bár azt hiszed a tavasz köszöntött be, súlyos tévedés..."));
 
-    commentRepository.save(new Comment(userRepository.findByUserName("Béla").orElseThrow(),
+    commentRepository.save(new Comment(userRepository.findByUsername("Béla").orElseThrow(),
         postRepository.findByTitle("Spring").orElseThrow(), "because Winter is coming..."));
 
   }

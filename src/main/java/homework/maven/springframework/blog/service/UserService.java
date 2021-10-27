@@ -4,6 +4,11 @@ import homework.maven.springframework.blog.model.User;
 import homework.maven.springframework.blog.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,9 +17,12 @@ import org.springframework.stereotype.Service;
  * vezérlése) és a persistence(ez a réteg kommunikál az adatbázissal) réteget.
  */
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
+
+  @Autowired
+  PasswordEncoder passwordEncoder;
 
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
@@ -23,15 +31,22 @@ public class UserService {
   /**
    * Kap egy usert valahonnan (akárhonnan), és elmenti
    */
-  public void addUser(User user) {
+  public void addUser(User user) throws Exception {
 
-    if (userRepository.findByUserName(user.getUserName()).isPresent()) {
+    if (userRepository.findByUsername(user.getUsername()).isPresent()) {
       //TODO: Ex.Hand.
-      System.out.println("This username is already used. Please choose another one.");
+      throw new Exception();
     }else{
-      userRepository.save(new User(user.getUserName(), user.getPassword()));
+      User currentUser = new User();
+      BeanUtils.copyProperties(user, currentUser);
+      encodePassword(user, currentUser);
+      userRepository.save(currentUser);
     }
 
+  }
+
+  private void encodePassword( User userData, User currentUser){
+    currentUser.setPassword(passwordEncoder.encode(userData.getPassword()));
   }
 
   public void deleteUser(Long id) {
@@ -51,6 +66,16 @@ public class UserService {
    */
   public Optional<User> findUser(Long id) {
     return userRepository.findById(id);
+  }
+
+  public Optional<User> findByUsername(String name){
+    return userRepository.findByUsername(name);
+  }
+
+  @Override
+  public User loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(username).orElseThrow();
+    return user;
   }
 
 }

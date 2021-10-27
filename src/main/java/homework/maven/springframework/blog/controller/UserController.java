@@ -3,6 +3,7 @@ package homework.maven.springframework.blog.controller;
 import homework.maven.springframework.blog.model.User;
 import homework.maven.springframework.blog.service.UserService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,9 +48,13 @@ public class UserController {
   }
 
   /** A @PostMapping annotáció a HTTP POST kéréseket kezeli. Ez egy annotáció,
-   * amely a @RequestMapping (method = RequestMethod.POST)-ként működik.*/
+   * amely a @RequestMapping (method = RequestMethod.POST)-ként működik.
+   * Amikor a Spring Boot talál argumentumot a @Valid jelzéssel, akkor automatikusan elindítja az
+   * alapértelmezett JSR 380 implementációt - Hibernate Validator - és érvényesíti az argumentumot.
+   * Ha a cél argumentum nem adja át az érvényesítést, a Spring Boot egy MethodArgumentNotValidException
+   * kivételt dob.*/
   @PostMapping("/addUser")
-  public ResponseEntity<String> addUser(@RequestBody User user) {
+  public ResponseEntity<String> addUser(@Valid @RequestBody User user) throws Exception {
     userService.addUser(user);
     return new ResponseEntity<>("User is created.", HttpStatus.OK);
   }

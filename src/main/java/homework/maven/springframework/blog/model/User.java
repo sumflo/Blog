@@ -1,6 +1,7 @@
 package homework.maven.springframework.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,14 +9,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User {
+public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  private String userName;
+
+  /** Validálásnál a @NotBlank annotációval tudjuk garantálni, hogy ez az érték ne lehessen null "üres"
+   * és a message attribútummal adhatunk meg hibaüzenetet.
+   * Ezenkívül a Bean Validation a @NotBlank mellett sok más praktikus korlátozást is kínál.
+   * Ez lehetővé teszi számunkra, hogy különböző érvényesítési szabályokat alkalmazzunk és kombináljunk
+   * a korlátozott osztályokra.*/
+  @NotBlank(message = "Name is mandatory.")
+  private String username;
+
+  @NotBlank(message = "Password is mandatory.")
   private String password;
 
   @OneToMany(mappedBy = "user")
@@ -30,8 +43,8 @@ public class User {
   public User() {
   }
 
-  public User(String userName, String password) {
-    this.userName = userName;
+  public User(String username, String password) {
+    this.username = username;
     this.password = password;
   }
 
@@ -70,12 +83,38 @@ public class User {
     this.id = id;
   }
 
-  public String getUserName() {
-    return userName;
+  @Override
+  public String getUsername() {
+    return username;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setUsername(String userName) {
+    this.username = userName;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 
   public String getPassword() {
