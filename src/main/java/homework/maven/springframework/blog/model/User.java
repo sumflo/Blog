@@ -2,34 +2,53 @@ package homework.maven.springframework.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra - EqualsAndHashcode-ra is!
 @Entity
 public class User implements UserDetails {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
   private Long id;
 
-  /** Validálásnál a @NotBlank annotációval tudjuk garantálni, hogy ez az érték ne lehessen null "üres"
+  /* Validálásnál a @NotBlank annotációval tudjuk garantálni, hogy ez az érték ne lehessen null "üres"
    * és a message attribútummal adhatunk meg hibaüzenetet.
    * Ezenkívül a Bean Validation a @NotBlank mellett sok más praktikus korlátozást is kínál.
    * Ez lehetővé teszi számunkra, hogy különböző érvényesítési szabályokat alkalmazzunk és kombináljunk
    * a korlátozott osztályokra.*/
   @NotBlank(message = "Name is mandatory.")
-  private String username;
+  private String username; /*ez később email lesz*/
+
+  /* - a későbbi átalakításokhoz
+  private String firstName;
+  private String lastName;
+  private String authorName;
+  */
 
   @NotBlank(message = "Password is mandatory.")
   private String password;
+
+  @Enumerated(EnumType.STRING)
+  private UserRole userRole;
+
+  private Boolean locked;
+  private Boolean enabled;
 
   @OneToMany(mappedBy = "user")
   @JsonManagedReference(value = "user-blog")
@@ -48,15 +67,16 @@ public class User implements UserDetails {
     this.password = password;
   }
 
-  /** generate -> equals() and hashCode() -> Template: IntelliJDefault -> id:Long marad csak bepipálva (az alapján szeretnénk az azonosságot) ->
-   * (included is hashCode())bepipálva -> (non-null field)nem bepipálva, mer lehet 0 (vagy, ha nem szeretném nem) -> finish */
+  /* generate -> equals() and hashCode() -> Template: IntelliJDefault -> id:Long marad csak bepipálva (az alapján szeretnénk az azonosságot) ->
+   * (included is hashCode())bepipálva -> (non-null field)nem bepipálva, mer lehet 0 (vagy, ha nem szeretném nem) -> finish
+   * helyettesíthető : @EqualsAndHashcode annotáció az osztály fölé */
 
-  /**
+  /*
    * Azért kell, hogy ha két objektumnak ugyanaz az ID-je, akkor a Hibernate ugyanannak az
    * objektumnak vegye őket (kapcsolja őket egymáshoz). ==>> elvileg szükség van rá az id megfeleő
    * működéséhez, én sem értem még nagyon.
    */
-  @Override
+ @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -94,7 +114,8 @@ public class User implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
+    return Collections.singletonList(authority);
   }
 
   @Override
@@ -104,7 +125,7 @@ public class User implements UserDetails {
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return !locked;
   }
 
   @Override
@@ -114,7 +135,7 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true;
+    return enabled;
   }
 
   public String getPassword() {

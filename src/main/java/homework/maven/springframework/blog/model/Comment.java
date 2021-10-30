@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
 public class Comment {
 

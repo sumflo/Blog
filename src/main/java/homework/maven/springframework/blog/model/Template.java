@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
 public class Template {
 

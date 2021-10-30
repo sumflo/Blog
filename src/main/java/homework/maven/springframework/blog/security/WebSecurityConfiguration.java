@@ -15,7 +15,7 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private UserService userService;
@@ -33,7 +33,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin().loginPage("/login")
             .defaultSuccessUrl("/home")
-            .failureUrl("/login?error=true");
+            .failureUrl("/login?error=true")
+        .and()
+          .logout().logoutSuccessUrl("/login");;
   }
 
   @Bean

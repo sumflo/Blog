@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
 public class Blog {
 

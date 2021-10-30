@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
+  private final static String USER_NOT_FOUND_MSG = "User %s not found.";
   private final UserRepository userRepository;
 
   @Autowired
@@ -61,9 +62,7 @@ public class UserService implements UserDetailsService {
     return userRepository.findAll();
   }
 
-  /**
-   * Mivel lehet, hogy nincs olyan idval rendelkező user, használni kell az Optional osztályt.
-   */
+  /* Mivel lehet, hogy nincs olyan id-val rendelkező user, használni kell az Optional osztályt. */
   public Optional<User> findUser(Long id) {
     return userRepository.findById(id);
   }
@@ -74,8 +73,8 @@ public class UserService implements UserDetailsService {
 
   @Override
   public User loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username).orElseThrow();
-    return user;
+    return userRepository.findByUsername(username).orElseThrow(() ->
+        new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
   }
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 
+//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
 public class Post {
 
