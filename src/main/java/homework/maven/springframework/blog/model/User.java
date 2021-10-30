@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,12 +33,15 @@ public class User implements UserDetails {
    * Ezenkívül a Bean Validation a @NotBlank mellett sok más praktikus korlátozást is kínál.
    * Ez lehetővé teszi számunkra, hogy különböző érvényesítési szabályokat alkalmazzunk és kombináljunk
    * a korlátozott osztályokra.*/
+  @Email(message = "Email should be valid.") //email validáció annotációval
   @NotBlank(message = "Name is mandatory.")
-  private String username; /*ez később email lesz*/
+  private String username; // -->> email
 
   /* - a későbbi átalakításokhoz
   private String firstName;
   private String lastName;
+
+  @Email(message = "Email should be valid.") //email validáció annotációval
   private String authorName;
   */
 
@@ -47,8 +51,8 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private UserRole userRole;
 
-  private Boolean locked;
-  private Boolean enabled;
+  private Boolean locked = false;
+  private Boolean enabled = false;
 
   @OneToMany(mappedBy = "user")
   @JsonManagedReference(value = "user-blog")
@@ -62,10 +66,12 @@ public class User implements UserDetails {
   public User() {
   }
 
-  public User(String username, String password) {
+  public User(String username, String password, UserRole userRole) {
     this.username = username;
     this.password = password;
+    this.userRole = userRole;
   }
+
 
   /* generate -> equals() and hashCode() -> Template: IntelliJDefault -> id:Long marad csak bepipálva (az alapján szeretnénk az azonosságot) ->
    * (included is hashCode())bepipálva -> (non-null field)nem bepipálva, mer lehet 0 (vagy, ha nem szeretném nem) -> finish

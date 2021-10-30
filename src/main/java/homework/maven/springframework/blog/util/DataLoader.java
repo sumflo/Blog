@@ -5,6 +5,7 @@ import homework.maven.springframework.blog.model.Comment;
 import homework.maven.springframework.blog.model.Post;
 import homework.maven.springframework.blog.model.Template;
 import homework.maven.springframework.blog.model.User;
+import homework.maven.springframework.blog.model.UserRole;
 import homework.maven.springframework.blog.repositories.BlogRepository;
 import homework.maven.springframework.blog.repositories.CommentRepository;
 import homework.maven.springframework.blog.repositories.PostRepository;
@@ -37,12 +38,12 @@ public class DataLoader implements ApplicationRunner {
 
   public void run(ApplicationArguments arguments) {
 
-    userRepository.save(new User("Jucus", "pass"));
-    userRepository.save(new User("Béla", "word"));
+    userRepository.save(new User("jucus@gmail.com", "pass", UserRole.USER));
+    userRepository.save(new User("bela@gmail.com", "word", UserRole.USER));
 
     templateRepository.save(new Template("RoseGold"));
 
-    blogRepository.save(new Blog(userRepository.findByUsername("Jucus").orElseThrow(),
+    blogRepository.save(new Blog(userRepository.findByUsername("jucus@gmail.com").orElseThrow(),
         "Hogyan ne bukjunk meg Java-ból?",
         templateRepository.findByTemplateName("RoseGold").orElseThrow()));
 
@@ -50,7 +51,7 @@ public class DataLoader implements ApplicationRunner {
         blogRepository.findBlogByBlogTitle("Hogyan ne bukjunk meg Java-ból?").orElseThrow(),
         "Spring", "Bár azt hiszed a tavasz köszöntött be, súlyos tévedés..."));
 
-    commentRepository.save(new Comment(userRepository.findByUsername("Béla").orElseThrow(),
+    commentRepository.save(new Comment(userRepository.findByUsername("bela@gmail.com").orElseThrow(),
         postRepository.findByTitle("Spring").orElseThrow(), "because Winter is coming..."));
 
   }

@@ -1,6 +1,7 @@
 package homework.maven.springframework.blog.security;
 
 import homework.maven.springframework.blog.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +16,11 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
+@AllArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private UserService userService;
+  @Autowired // <-- ez végül mire kellett? XD
+  private final UserService userService;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -38,6 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
           .logout().logoutSuccessUrl("/login");;
   }
 
+  /* ki kellene szervezin önálló osztályba? */
   @Bean
   public PasswordEncoder encoder() {
     return new BCryptPasswordEncoder();

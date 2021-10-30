@@ -1,6 +1,7 @@
 package homework.maven.springframework.blog.service;
 
 import homework.maven.springframework.blog.model.User;
+import homework.maven.springframework.blog.model.registration.RegistrationRequest;
 import homework.maven.springframework.blog.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,6 @@ public class UserService implements UserDetailsService {
       encodePassword(user, currentUser);
       userRepository.save(currentUser);
     }
-
   }
 
   private void encodePassword( User userData, User currentUser){
@@ -67,14 +67,33 @@ public class UserService implements UserDetailsService {
     return userRepository.findById(id);
   }
 
-  public Optional<User> findByUsername(String name){
-    return userRepository.findByUsername(name);
+  public Optional<User> findByUsername(String userEmail){
+    return userRepository.findByUsername(userEmail);
   }
 
   @Override
   public User loadUserByUsername(String username) throws UsernameNotFoundException {
     return userRepository.findByUsername(username).orElseThrow(() ->
         new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+  }
+
+  /* A KÍSÉRLET RÉSZE*/
+  public String signUpUser(User user){
+
+    boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
+
+    if (userExists){
+      throw new IllegalStateException("This email is already used.");
+    }
+
+    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encodedPassword);
+    userRepository.save(user);
+
+    //ToDo: conf.token send
+
+
+    return "";
   }
 
 }
