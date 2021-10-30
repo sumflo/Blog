@@ -6,28 +6,27 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * A @Controller annotáció jelzi a Springnek, hogy ez az osztály egy MVC Controller lesz. A
+/* A @Controller annotáció jelzi a Springnek, hogy ez az osztály egy MVC Controller lesz. A
  * Controller rétegg az adatbázisból kinyert, majd azok átalakítása során nyert adatokat veszi át,
- * és adja tovább a megjelenítési rétegnek (azaz magának a weboldalnak), amelyeket a user lát.
- */
-/** A Controller rétegg az adatbázisból kinyert, majd azok átalakítása során nyert adatokat veszi át, és adja tovább
+ * és adja tovább a megjelenítési rétegnek (azaz magának a weboldalnak), amelyeket a user lát.*/
+
+/* A Controller rétegg az adatbázisból kinyert, majd azok átalakítása során nyert adatokat veszi át, és adja tovább
  * a megjelenítési rétegnek (azaz magának a weboldalnak), amelyeket a user lát.*/
 
-/** Model View Controller -->> a szoftvertervezésben használatos programtervezési minta. Összetett, sok adatot a
+/* Model View Controller -->> a szoftvertervezésben használatos programtervezési minta. Összetett, sok adatot a
  * felhasználó elé táró számítógépes alkalmazásokban gyakori fejlesztői kívánalom az adathoz (modell) és a felhasználói
  * felülethez (nézet) tartozó dolgok szétválasztása, hogy a felhasználói felület ne befolyásolja az adatkezelést, és az
  * adatok átszervezhetők legyenek a felhasználói felület változtatása nélkül. A modell-nézet-vezérlő ezt úgy éri el,
  * hogy elkülöníti az adatok elérését és az üzleti logikát az adatok megjelenítésétől és a felhasználói interakciótól
  * egy közbülső összetevő, a vezérlő bevezetésével.*/
-@Controller
+@RestController
 public class UserController {
 
   private final UserService userService;
@@ -36,7 +35,7 @@ public class UserController {
     this.userService = userService;
   }
 
-  /** @GetMapping annotáció jelzi hogy HTTP GET kérések kiszolgálását fogja végezni ez a metódus, méghozzá a root útvonalon.
+  /* @GetMapping annotáció jelzi hogy HTTP GET kérések kiszolgálását fogja végezni ez a metódus, méghozzá a root útvonalon.
    *
    * Amikor a böngésző címsorába beírunk egy http(s) kezdetű címet, akkor a böngészőnk az adott címre egy GET kérést küld.
    * Mivel a gyökér (/) útvonalhoz tartozó Java metódus  @GetMapping-gel van felvéve, így kizárólag a GET típusú HTTP
