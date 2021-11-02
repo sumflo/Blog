@@ -22,15 +22,21 @@ import org.springframework.stereotype.Service;
  * vezérlése) és a persistence(ez a réteg kommunikál az adatbázissal) réteget.
  */
 @Service
-@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
   private final static String USER_NOT_FOUND_MSG = "User %s not found.";
-  private final UserRepository userRepository;
-  private final ConfirmationTokenService confirmationTokenService;
+  private UserRepository userRepository;
+  private ConfirmationTokenService confirmationTokenService;
+
+  PasswordEncoder passwordEncoder;
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  public UserService(UserRepository userRepository,
+      ConfirmationTokenService confirmationTokenService) {
+    this.userRepository = userRepository;
+    this.confirmationTokenService = confirmationTokenService;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   /**
    * Kap egy usert valahonnan (akárhonnan), és elmenti
@@ -80,15 +86,15 @@ public class UserService implements UserDetailsService {
   }
 
   /* A KÍSÉRLET RÉSZE*/
-  public ConfirmationToken signUpUser(User user){
+/*  public ConfirmationToken signUpUser(User user){
 
     Optional<User> currentUser = userRepository.findByUsername(user.getUsername());
 
     if (currentUser.isPresent()){
       throw new IllegalStateException("This email is already used.");
     }else{
-      /* uk */
-      return createToken(currentUser.get());
+      *//* uk *//*
+      //return createToken(currentUser.get());
     }
 
     String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -96,12 +102,25 @@ public class UserService implements UserDetailsService {
     user.setPassword(encodedPassword);
     userRepository.save(user);
 
-    /*
+    *//*
     String token = UUID.randomUUID().toString();
     ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
         LocalDateTime.now().plusMinutes(15), user);
     confirmationTokenService.saveConfirmationToken(confirmationToken);
-    */
+    *//*
+
+    return createToken(user);
+  }*/
+
+  public ConfirmationToken signUpUser(User user) throws IllegalStateException{
+
+    if (userRepository.findByUsername(user.getUsername()).isPresent()){
+      throw new IllegalStateException("This email is already used.");
+    }
+
+    String encodedPassword = passwordEncoder.encode(user.getPassword());
+    user.setPassword(encodedPassword);
+    userRepository.save(user);
 
     return createToken(user);
   }

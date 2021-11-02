@@ -8,6 +8,7 @@ import homework.maven.springframework.blog.service.BlogService;
 import homework.maven.springframework.blog.service.TemplateService;
 import homework.maven.springframework.blog.service.UserService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BlogController {
 
-  private final BlogService blogService;
-  private final UserService userService;
-  private final TemplateService templateService;
+  private BlogService blogService;
+  private UserService userService;
+  private TemplateService templateService;
 
+  @Autowired
   public BlogController(BlogService blogService, UserService userService,
       TemplateService templateService) {
     this.blogService = blogService;

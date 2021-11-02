@@ -16,11 +16,14 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
-@AllArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Autowired // <-- ez végül mire kellett? XD
-  private final UserService userService;
+  private UserService userService;
+
+  @Autowired
+  public WebSecurityConfiguration(UserService userService) {
+    this.userService = userService;
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -29,15 +32,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter();
     http.addFilterBefore(filter, CsrfFilter.class)
         .authorizeRequests()
-        .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/index", "/home", "/registration/experiment")
+        .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration",
+            "/index", "/home", "/registration/experiment", "/registration/experiment/confirm")
         .permitAll()
-        //.anyRequest().authenticated()
+        .anyRequest().authenticated()
         .and()
-        .formLogin().loginPage("/login")
+       /* .formLogin().loginPage("/login")
             .defaultSuccessUrl("/home")
             .failureUrl("/login?error=true")
         .and()
-          .logout().logoutSuccessUrl("/login");;
+          .logout().logoutSuccessUrl("/login")*/;
   }
 
   /* ki kellene szervezin önálló osztályba? */

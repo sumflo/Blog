@@ -5,6 +5,7 @@ import homework.maven.springframework.blog.model.UserRole;
 import homework.maven.springframework.blog.model.registration.RegistrationRequest;
 import homework.maven.springframework.blog.model.registration.token.ConfirmationToken;
 import homework.maven.springframework.blog.repositories.EmailSender;
+import homework.maven.springframework.blog.service.EmailService;
 import homework.maven.springframework.blog.service.UserService;
 import homework.maven.springframework.blog.service.registration.token.ConfirmationTokenService;
 import java.time.LocalDateTime;
@@ -20,11 +21,12 @@ public class RegistrationService {
   private final UserService userService;
   private final ConfirmationTokenService confirmationTokenService;
   private final EmailSender emailSender;
+  private final EmailService emailService;
 
   public String register(RegistrationRequest request){
     ConfirmationToken token = userService.signUpUser( new User(request.getUserName(), request.getPassword(), UserRole.USER));
     String link = "http://localhost:8080/registration/experiment/confirm;token=" + token;
-    emailSender.send(token.getUser().getUsername(), buildEmail(token.getUser().getUsername(), link));
+    emailService.send(token.getUser().getUsername(), buildEmail(token.getUser().getUsername(), link));
     return "/login";
   }
 
