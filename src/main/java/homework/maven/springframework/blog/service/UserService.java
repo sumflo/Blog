@@ -1,10 +1,14 @@
 package homework.maven.springframework.blog.service;
 
 import homework.maven.springframework.blog.model.User;
-import homework.maven.springframework.blog.model.registration.RegistrationRequest;
+import homework.maven.springframework.blog.model.registration.token.ConfirmationToken;
 import homework.maven.springframework.blog.repositories.UserRepository;
+import homework.maven.springframework.blog.service.registration.token.ConfirmationTokenService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,17 +22,15 @@ import org.springframework.stereotype.Service;
  * vezérlése) és a persistence(ez a réteg kommunikál az adatbázissal) réteget.
  */
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
   private final static String USER_NOT_FOUND_MSG = "User %s not found.";
   private final UserRepository userRepository;
+  private final ConfirmationTokenService confirmationTokenService;
 
   @Autowired
   PasswordEncoder passwordEncoder;
-
-  public UserService(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
 
   /**
    * Kap egy usert valahonnan (akárhonnan), és elmenti
@@ -78,22 +80,44 @@ public class UserService implements UserDetailsService {
   }
 
   /* A KÍSÉRLET RÉSZE*/
-  public String signUpUser(User user){
+  public ConfirmationToken signUpUser(User user){
 
-    boolean userExists = userRepository.findByUsername(user.getUsername()).isPresent();
+    Optional<User> currentUser = userRepository.findByUsername(user.getUsername());
 
-    if (userExists){
+    if (currentUser.isPresent()){
       throw new IllegalStateException("This email is already used.");
+    }else{
+      /* uk */
+      return createToken(currentUser.get());
     }
 
     String encodedPassword = passwordEncoder.encode(user.getPassword());
+    encodePassword(user, currentUser);
     user.setPassword(encodedPassword);
     userRepository.save(user);
 
-    //ToDo: conf.token send
+    /*
+    String token = UUID.randomUUID().toString();
+    ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
+        LocalDateTime.now().plusMinutes(15), user);
+    confirmationTokenService.saveConfirmationToken(confirmationToken);
+    */
 
+    return createToken(user);
+  }
 
-    return "";
+  private ConfirmationToken createToken(User user){
+    String token =  UUID.randomUUID().toString();
+    ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
+        LocalDateTime.now().plusMinutes(15), user);
+    confirmationTokenService.saveConfirmationToken(confirmationToken);
+    return confirmationToken;
+  }
+
+  public void enableUser(String userName) {
+    userRepository.findByUsername(userName).
+        orElseThrow(() -> new IllegalStateException("User not found."))
+        .setEnabled(true);
   }
 
 }

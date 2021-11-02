@@ -1,5 +1,9 @@
 package homework.maven.springframework.blog.model.DTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
 public class BlogDTO {
 
   /**
@@ -10,21 +14,9 @@ public class BlogDTO {
   private String blogTitle;
   private Long templateId;
 
-  public BlogDTO(Long userId, String blogTitle, String templateName) {
+  public BlogDTO(Long userId, String blogTitle, Long templateId) {
     this.userId = userId;
     this.blogTitle = blogTitle;
     this.templateId = templateId;
-  }
-
-  public Long getUserId() {
-    return userId;
-  }
-
-  public String getBlogTitle() {
-    return blogTitle;
-  }
-
-  public Long getTemplateId() {
-    return templateId;
   }
 }

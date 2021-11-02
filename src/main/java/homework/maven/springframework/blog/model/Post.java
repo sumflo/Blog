@@ -12,10 +12,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Post {
 
   @Id
@@ -49,66 +56,4 @@ public class Post {
     this.commentList = new ArrayList<>();
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    Post post = (Post) o;
-
-    return id != null ? id.equals(post.id) : post.id == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return id != null ? id.hashCode() : 0;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Blog getBlog() {
-    return blog;
-  }
-
-  public void setBlog(Blog blog) {
-    this.blog = blog;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  public LocalDateTime getDATE_OF_REGISTRY() {
-    return DATE_OF_REGISTRY;
-  }
-
-  public List<Comment> getCommentList() {
-    return commentList;
-  }
-
-  public void setCommentList(List<Comment> commentList) {
-    this.commentList = commentList;
-  }
 }

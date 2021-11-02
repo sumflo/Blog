@@ -15,12 +15,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra - EqualsAndHashcode-ra is!
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class User implements UserDetails {
 
   @Id
@@ -40,8 +47,6 @@ public class User implements UserDetails {
   /* - a későbbi átalakításokhoz
   private String firstName;
   private String lastName;
-
-  @Email(message = "Email should be valid.") //email validáció annotációval
   private String authorName;
   */
 
@@ -82,7 +87,9 @@ public class User implements UserDetails {
    * objektumnak vegye őket (kapcsolja őket egymáshoz). ==>> elvileg szükség van rá az id megfeleő
    * működéséhez, én sem értem még nagyon.
    */
- @Override
+
+  /*
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
@@ -100,22 +107,11 @@ public class User implements UserDetails {
   public int hashCode() {
     return id != null ? id.hashCode() : 0;
   }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
+  */
 
   @Override
   public String getUsername() {
     return username;
-  }
-
-  public void setUsername(String userName) {
-    this.username = userName;
   }
 
   @Override
@@ -144,27 +140,4 @@ public class User implements UserDetails {
     return enabled;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public List<Blog> getBlogs() {
-    return blogs;
-  }
-
-  public void setBlogs(List<Blog> blogs) {
-    this.blogs = blogs;
-  }
-
-  public List<Comment> getCommentList() {
-    return commentList;
-  }
-
-  public void setCommentList(List<Comment> commentList) {
-    this.commentList = commentList;
-  }
 }

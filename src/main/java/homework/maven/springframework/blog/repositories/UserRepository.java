@@ -31,6 +31,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
   /* @Transactional */
   Optional<User> deleteUsersById(Long id);
 
-  /* A későbbi átalakításhoz, még nincs szerepe */
-  Optional<User> findByEmail(String email);
 }

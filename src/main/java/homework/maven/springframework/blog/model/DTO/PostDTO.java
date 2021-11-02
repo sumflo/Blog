@@ -1,5 +1,8 @@
 package homework.maven.springframework.blog.model.DTO;
 
+import lombok.Getter;
+
+@Getter
 public class PostDTO {
 
   private Long blogId;
@@ -10,17 +13,5 @@ public class PostDTO {
     this.blogId = blogId;
     this.title = title;
     this.text = text;
-  }
-
-  public Long getBlogId() {
-    return blogId;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public String getText() {
-    return text;
   }
 }

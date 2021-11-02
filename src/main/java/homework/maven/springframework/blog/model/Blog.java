@@ -11,9 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Blog {
 
   @Id
@@ -41,65 +48,6 @@ public class Blog {
   public Blog(User user, String blogTitle, Template template) {
     this.user = user;
     this.blogTitle = blogTitle;
-    this.template = template;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    Blog blog = (Blog) o;
-
-    return id != null ? id.equals(blog.id) : blog.id == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return id != null ? id.hashCode() : 0;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User author) {
-    this.user = author;
-  }
-
-  public String getBlogTitle() {
-    return blogTitle;
-  }
-
-  public void setBlogTitle(String blogTitle) {
-    this.blogTitle = blogTitle;
-  }
-
-  public List<Post> getBlogRegistries() {
-    return blogRegistries;
-  }
-
-  public void setBlogRegistries(List<Post> blogRegistries) {
-    this.blogRegistries = blogRegistries;
-  }
-
-  public Template getTemplate() {
-    return template;
-  }
-
-  public void setTemplate(Template template) {
     this.template = template;
   }
 }

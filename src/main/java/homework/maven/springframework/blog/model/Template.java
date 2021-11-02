@@ -4,9 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-//ToDo: kitakarítani, a gettereket, settereket, átállni a lombokos annotációkra
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Template {
 
   @Id
@@ -22,38 +29,4 @@ public class Template {
     this.templateName = templateName;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    Template template = (Template) o;
-
-    return id != null ? id.equals(template.id) : template.id == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return id != null ? id.hashCode() : 0;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getTemplateName() {
-    return templateName;
-  }
-
-  public void setTemplateName(String templateName) {
-    this.templateName = templateName;
-  }
 }

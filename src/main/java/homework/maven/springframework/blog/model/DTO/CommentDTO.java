@@ -1,5 +1,8 @@
 package homework.maven.springframework.blog.model.DTO;
 
+import lombok.Getter;
+
+@Getter
 public class CommentDTO {
 
   private Long userId;
@@ -11,17 +14,4 @@ public class CommentDTO {
     this.postId = postId;
     this.text = text;
   }
-
-  public Long getUserId() {
-    return userId;
-  }
-
-  public Long getPostId() {
-    return postId;
-  }
-
-  public String getText() {
-    return text;
-  }
-
 }

@@ -29,7 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         CharacterEncodingFilter();
     http.addFilterBefore(filter, CsrfFilter.class)
         .authorizeRequests()
-        .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/index", "/home")
+        .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration", "/index", "/home", "/registration/experiment")
         .permitAll()
         //.anyRequest().authenticated()
         .and()
