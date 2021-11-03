@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -21,72 +22,42 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
   private UserService userService;
 
   @Autowired
+  UserDetailsService userDetailsService;
+
+  @Autowired
   public WebSecurityConfiguration(UserService userService) {
     this.userService = userService;
   }
 
   @Override
-  protected void configure(HttpSecurity http) throws Exception {
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService);
+  }
 
-    CharacterEncodingFilter filter = new
-        CharacterEncodingFilter();
-    http.addFilterBefore(filter, CsrfFilter.class)
-        .authorizeRequests()
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        /*.authorizeRequests()
         .antMatchers("/login", "/*.css", "/images/*.jpg", "/favicon.ico", "/registration",
             "/index", "/home", "/registration/experiment", "/registration/experiment/confirm")
         .permitAll()
         .anyRequest().authenticated()
+        .and()*/
+        .authorizeRequests()
+        .antMatchers("/admin").hasRole("ADMIN")
+        .antMatchers("/user").hasAnyRole("ADMIN", "USER")
+        .antMatchers("/").permitAll()
         .and()
-       /* .formLogin().loginPage("/login")
+        .formLogin().loginPage("/login")
             .defaultSuccessUrl("/home")
             .failureUrl("/login?error=true")
         .and()
-          .logout().logoutSuccessUrl("/login")*/;
+          .logout().logoutSuccessUrl("/login");
   }
 
-  /* ki kellene szervezin önálló osztályba? */
   @Bean
   public PasswordEncoder encoder() {
     return new BCryptPasswordEncoder();
   }
-
-  // megadjuk a saját adatainkat a DaoAuthenticationProvider-nek, hogy azokat használja -> a mi encoderünket, és userservicet
-  @Bean
-  public DaoAuthenticationProvider daoAuthenticationProvider(){
-    DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setPasswordEncoder(encoder());
-    provider.setUserDetailsService(userService);
-    return provider;
-  }
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) {
-    auth.authenticationProvider(daoAuthenticationProvider());
-  }
-
-  /*
-  * @AllArgsConstructor
-@Configuration
-public class AuthFailureHandler implements AuthenticationFailureHandler {
-    private final ObjectMapper objectMapper;
-
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        AuthenticationException e) throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        Map<String, Object> data = new HashMap<>();
-        data.put(
-                "timestamp",
-                Calendar.getInstance().getTime());
-        data.put(
-                "Unsuccessful login",
-                e.getMessage());
-
-        response.getOutputStream()
-                .println(objectMapper.writeValueAsString(data));
-    }
-}
-  * */
 
 }

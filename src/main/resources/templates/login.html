@@ -51,15 +51,15 @@
         <h2 class="log-text"><b id="big-b">B</b>Log In!</h2>
       </div>
 
-      <form>
+      <form action="#" th:action="login" th:method="post">
 
         <label for="nameInputField" id="nameLabel" class="data">Username</label>
-        <input type="text" id="nameInputField" class="data">
+        <input type="text" id="nameInputField" name="nameInputField" class="data">
 
         <br>
 
         <label for="wordInputField" id="wordLabel" class="data">Password</label>
-        <input type="password" id="wordInputField" class="data">
+        <input type="password" id="wordInputField" name="wordInputField" class="data">
 
         <br>
 

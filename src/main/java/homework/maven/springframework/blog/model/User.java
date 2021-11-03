@@ -28,19 +28,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class User implements UserDetails {
+public class User{
 
   @Id
-  @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  /* Validálásnál a @NotBlank annotációval tudjuk garantálni, hogy ez az érték ne lehessen null "üres"
-   * és a message attribútummal adhatunk meg hibaüzenetet.
-   * Ezenkívül a Bean Validation a @NotBlank mellett sok más praktikus korlátozást is kínál.
-   * Ez lehetővé teszi számunkra, hogy különböző érvényesítési szabályokat alkalmazzunk és kombináljunk
-   * a korlátozott osztályokra.*/
-  @Email(message = "Email should be valid.") //email validáció annotációval
+  @Email(message = "Email should be valid.")
   @NotBlank(message = "Name is mandatory.")
   private String username; // -->> email
 
@@ -56,8 +50,7 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private UserRole userRole;
 
-  private Boolean locked = false;
-  private Boolean enabled = false;
+  private boolean active;
 
   @OneToMany(mappedBy = "user")
   @JsonManagedReference(value = "user-blog")
@@ -75,69 +68,6 @@ public class User implements UserDetails {
     this.username = username;
     this.password = password;
     this.userRole = userRole;
-  }
-
-
-  /* generate -> equals() and hashCode() -> Template: IntelliJDefault -> id:Long marad csak bepipálva (az alapján szeretnénk az azonosságot) ->
-   * (included is hashCode())bepipálva -> (non-null field)nem bepipálva, mer lehet 0 (vagy, ha nem szeretném nem) -> finish
-   * helyettesíthető : @EqualsAndHashcode annotáció az osztály fölé */
-
-  /*
-   * Azért kell, hogy ha két objektumnak ugyanaz az ID-je, akkor a Hibernate ugyanannak az
-   * objektumnak vegye őket (kapcsolja őket egymáshoz). ==>> elvileg szükség van rá az id megfeleő
-   * működéséhez, én sem értem még nagyon.
-   */
-
-  /*
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    User user = (User) o;
-
-    return id != null ? id.equals(user.id) : user.id == null;
-  }
-
-  @Override
-  public int hashCode() {
-    return id != null ? id.hashCode() : 0;
-  }
-  */
-
-  @Override
-  public String getUsername() {
-    return username;
-  }
-
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-    return Collections.singletonList(authority);
-  }
-
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isAccountNonLocked() {
-    return !locked;
-  }
-
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
-
-  @Override
-  public boolean isEnabled() {
-    return enabled;
   }
 
 }
